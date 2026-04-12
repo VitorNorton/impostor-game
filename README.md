@@ -11,7 +11,7 @@ Cada jogador recebe uma pergunta, mas nem todos recebem a mesma. Um ou mais joga
 ## 👥 Número de Jogadores
 
 - Mínimo: 3 jogadores
-- Máximo: 6 jogadores
+- Máximo: 8 jogadores
 
 ---
 

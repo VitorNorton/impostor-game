@@ -2,12 +2,16 @@ import React, { useState } from "react";
 import { useGame } from "../context/GameContext";
 
 const AVATAR_COLORS = [
-  { bg: "#ff3e3e22", border: "#ff3e3e", text: "#ff3e3e" },
-  { bg: "#9b6dff22", border: "#9b6dff", text: "#9b6dff" },
-  { bg: "#3effa322", border: "#3effa3", text: "#3effa3" },
-  { bg: "#f5c84222", border: "#f5c842", text: "#f5c842" },
-  { bg: "#ff6b3e22", border: "#ff6b3e", text: "#ff6b3e" },
-  { bg: "#3eaaff22", border: "#3eaaff", text: "#3eaaff" },
+  { bg: "#ff3e3e22", border: "#ff3e3e", text: "#ff3e3e" }, // Vermelho
+  { bg: "#9b6dff22", border: "#9b6dff", text: "#9b6dff" }, // Roxo
+  { bg: "#3effa322", border: "#3effa3", text: "#3effa3" }, // Verde
+  { bg: "#f5c84222", border: "#f5c842", text: "#f5c842" }, // Amarelo
+  { bg: "#ff6b3e22", border: "#ff6b3e", text: "#ff6b3e" }, // Laranja
+  { bg: "#3eaaff22", border: "#3eaaff", text: "#3eaaff" }, // Azul
+  { bg: "#ff3eb522", border: "#ff3eb5", text: "#ff3eb5" }, // Rosa
+  { bg: "#3effee22", border: "#3effee", text: "#3effee" }, // Ciano
+  { bg: "#aaff3e22", border: "#aaff3e", text: "#aaff3e" }, // Lima
+  { bg: "#ffffff22", border: "#ffffff", text: "#ffffff" }, // Branco
 ];
 
 export default function VotingScreen() {
@@ -22,6 +26,7 @@ export default function VotingScreen() {
   const handleVotar = () => {
     if (selecionado === null) return;
     setConfirmando(true);
+
     setTimeout(() => {
       registrarVoto(selecionado);
       setSelecionado(null);
@@ -102,14 +107,10 @@ export default function VotingScreen() {
                 marginBottom: 24,
               }}
             >
-              Apenas{" "}
-              <strong style={{ color: "var(--text-primary)" }}>
-                {votante}
-              </strong>{" "}
-              deve estar olhando.
+              Apenas <strong>{votante}</strong> deve estar olhando agora.
               <br />
               <br />
-              Quando estiver pronto para votar, toque no botão abaixo.
+              Quando estiver sozinho, toque no botão abaixo.
             </p>
             <button
               className="btn btn-primary btn-full"
@@ -168,7 +169,6 @@ export default function VotingScreen() {
                   color: "var(--text-muted)",
                   fontSize: "0.72rem",
                   textTransform: "uppercase",
-                  letterSpacing: "0.08em",
                 }}
               >
                 Votando agora
@@ -176,12 +176,16 @@ export default function VotingScreen() {
             </div>
           </div>
           <p style={{ color: "var(--text-secondary)", fontSize: "0.88rem" }}>
-            Quem você acha que é o impostor? Você não pode votar em si mesmo.
+            Quem é o impostor? (Ou são todos mentirosos?)
           </p>
         </div>
 
         <div className="card-body">
-          <div className="scroll-list">
+          {/* Aumentamos a altura máxima para acomodar mais jogadores */}
+          <div
+            className="scroll-list"
+            style={{ maxHeight: "400px", overflowY: "auto" }}
+          >
             {jogadores.map((nome, idx) => {
               const cor = AVATAR_COLORS[idx % AVATAR_COLORS.length];
               const eEuMesmo = idx === votanteAtualIdx;
@@ -217,13 +221,11 @@ export default function VotingScreen() {
                   {eEuMesmo && (
                     <span
                       style={{
-                        fontSize: "0.72rem",
+                        fontSize: "0.65rem",
                         color: "var(--text-muted)",
-                        textTransform: "uppercase",
-                        letterSpacing: "0.06em",
                       }}
                     >
-                      (você)
+                      (VOCÊ)
                     </span>
                   )}
                   {selecionadoEste && (
@@ -236,16 +238,65 @@ export default function VotingScreen() {
                 </button>
               );
             })}
+
+            {/* OPÇÃO: TODOS SÃO IMPOSTORES */}
+            <button
+              className={`vote-option ${selecionado === "todos" ? "selected" : ""}`}
+              onClick={() => setSelecionado("todos")}
+              style={{
+                marginTop: "16px",
+                borderStyle: "dashed",
+                borderColor: "var(--accent)",
+                background:
+                  selecionado === "todos"
+                    ? "var(--accent-hover)"
+                    : "transparent",
+              }}
+            >
+              <div
+                style={{
+                  width: 38,
+                  height: 38,
+                  borderRadius: "50%",
+                  background: "rgba(255, 62, 62, 0.1)",
+                  border: `2px solid var(--accent)`,
+                  color: "var(--accent)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontFamily: "'Bebas Neue'",
+                  fontSize: "1.2rem",
+                  flexShrink: 0,
+                }}
+              >
+                !
+              </div>
+              <div
+                style={{
+                  flex: 1,
+                  fontWeight: 700,
+                  color: "var(--accent)",
+                  letterSpacing: "0.05em",
+                }}
+              >
+                TODOS SÃO IMPOSTORES!
+              </div>
+              {selecionado === "todos" && (
+                <span style={{ color: "var(--accent)", fontSize: "1.2rem" }}>
+                  ✓
+                </span>
+              )}
+            </button>
           </div>
         </div>
 
         <div className="card-footer">
           <button
-            className="btn btn-primary"
+            className="btn btn-primary btn-full"
             onClick={handleVotar}
             disabled={selecionado === null}
           >
-            ✅ Confirmar voto
+            ✅ Confirmar Voto
           </button>
         </div>
       </div>

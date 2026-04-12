@@ -131,7 +131,7 @@ export default function SetupGame() {
                     className="btn btn-secondary"
                     style={{ padding: "10px 16px", fontSize: "1.2rem" }}
                     onClick={() => handleNumChange(numJogadores + 1)}
-                    disabled={numJogadores >= 6}
+                    disabled={numJogadores >= 8}
                   >
                     +
                   </button>
