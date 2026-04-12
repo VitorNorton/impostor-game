@@ -1,14 +1,17 @@
 import React, { useState } from "react";
 import { useGame } from "../context/GameContext";
 
-// Cores para avatares dos jogadores
-const AVATAR_COLORS = [
-  { bg: "#ff3e3e22", border: "#ff3e3e", text: "#ff3e3e" },
-  { bg: "#9b6dff22", border: "#9b6dff", text: "#9b6dff" },
-  { bg: "#3effa322", border: "#3effa3", text: "#3effa3" },
-  { bg: "#f5c84222", border: "#f5c842", text: "#f5c842" },
-  { bg: "#ff6b3e22", border: "#ff6b3e", text: "#ff6b3e" },
-  { bg: "#3eaaff22", border: "#3eaaff", text: "#3eaaff" },
+const AVATARS = [
+  { emoji: "🦊", bg: "#ff3e3e22", border: "#ff3e3e", text: "#ff3e3e" },
+  { emoji: "👾", bg: "#9b6dff22", border: "#9b6dff", text: "#9b6dff" },
+  { emoji: "🦖", bg: "#3effa322", border: "#3effa3", text: "#3effa3" },
+  { emoji: "🐱", bg: "#f5c84222", border: "#f5c842", text: "#f5c842" },
+  { emoji: "🦁", bg: "#ff6b3e22", border: "#ff6b3e", text: "#ff6b3e" },
+  { emoji: "🐧", bg: "#3eaaff22", border: "#3eaaff", text: "#3eaaff" },
+  { emoji: "🐷", bg: "#ff3eb522", border: "#ff3eb5", text: "#ff3eb5" },
+  { emoji: "🐬", bg: "#3effee22", border: "#3effee", text: "#3effee" },
+  { emoji: "👽", bg: "#aaff3e22", border: "#aaff3e", text: "#aaff3e" },
+  { emoji: "👻", bg: "#ffffff22", border: "#ffffff", text: "#ffffff" },
 ];
 
 export default function SetupGame() {
@@ -19,16 +22,15 @@ export default function SetupGame() {
     setTimerAtivo,
     tempoRodada,
     setTempoRodada,
-    iniciarJogo, // Importado diretamente aqui
+    iniciarJogo,
   } = useGame();
 
-  const [step, setStep] = useState(0); // 0=config, 1=nomes
+  const [step, setStep] = useState(0);
   const [nomes, setNomes] = useState(Array(numJogadores).fill(""));
   const [erro, setErro] = useState("");
 
-  // Atualiza array de nomes ao mudar quantidade
   const handleNumChange = (v) => {
-    const n = Math.max(3, Math.min(6, Number(v)));
+    const n = Math.max(3, Math.min(10, Number(v)));
     setNumJogadores(n);
     setNomes((prev) => {
       const arr = [...prev];
@@ -63,7 +65,6 @@ export default function SetupGame() {
     }
 
     setErro("");
-    // O modo de jogo será sorteado automaticamente dentro desta função no Context
     iniciarJogo(preenchidos);
   };
 
@@ -131,7 +132,7 @@ export default function SetupGame() {
                     className="btn btn-secondary"
                     style={{ padding: "10px 16px", fontSize: "1.2rem" }}
                     onClick={() => handleNumChange(numJogadores + 1)}
-                    disabled={numJogadores >= 8}
+                    disabled={numJogadores >= 10}
                   >
                     +
                   </button>
@@ -181,7 +182,7 @@ export default function SetupGame() {
           {step === 1 && (
             <>
               {nomes.map((nome, idx) => {
-                const cor = AVATAR_COLORS[idx];
+                const avatar = AVATARS[idx % AVATARS.length];
                 return (
                   <div
                     key={idx}
@@ -196,12 +197,13 @@ export default function SetupGame() {
                     <div
                       className="avatar"
                       style={{
-                        background: cor.bg,
-                        border: `2px solid ${cor.border}`,
-                        color: cor.text,
+                        background: avatar.bg,
+                        border: `2px solid ${avatar.border}`,
+                        color: avatar.text,
+                        fontSize: "1.4rem",
                       }}
                     >
-                      {nome.trim() ? nome.trim()[0].toUpperCase() : idx + 1}
+                      {avatar.emoji}
                     </div>
                     <input
                       className="input-field"
@@ -222,7 +224,14 @@ export default function SetupGame() {
               })}
 
               {erro && (
-                <div className="error-badge" style={{ marginTop: 8 }}>
+                <div
+                  className="error-badge"
+                  style={{
+                    marginTop: 8,
+                    color: "var(--accent)",
+                    fontSize: "0.85rem",
+                  }}
+                >
                   ⚠️ {erro}
                 </div>
               )}

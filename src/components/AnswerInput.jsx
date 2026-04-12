@@ -2,16 +2,20 @@ import React, { useState, useEffect, useRef } from "react";
 import { useGame } from "../context/GameContext";
 import { useTimer } from "../hooks/useTimer";
 
-const AVATAR_COLORS = [
-  { bg: "#ff3e3e22", border: "#ff3e3e", text: "#ff3e3e" },
-  { bg: "#9b6dff22", border: "#9b6dff", text: "#9b6dff" },
-  { bg: "#3effa322", border: "#3effa3", text: "#3effa3" },
-  { bg: "#f5c84222", border: "#f5c842", text: "#f5c842" },
-  { bg: "#ff6b3e22", border: "#ff6b3e", text: "#ff6b3e" },
-  { bg: "#3eaaff22", border: "#3eaaff", text: "#3eaaff" },
+const AVATARS = [
+  { emoji: "🦊", bg: "#ff3e3e22", border: "#ff3e3e", text: "#ff3e3e" },
+  { emoji: "👾", bg: "#9b6dff22", border: "#9b6dff", text: "#9b6dff" },
+  { emoji: "🦖", bg: "#3effa322", border: "#3effa3", text: "#3effa3" },
+  { emoji: "🐱", bg: "#f5c84222", border: "#f5c842", text: "#f5c842" },
+  { emoji: "🦁", bg: "#ff6b3e22", border: "#ff6b3e", text: "#ff6b3e" },
+  { emoji: "🐧", bg: "#3eaaff22", border: "#3eaaff", text: "#3eaaff" },
+  { emoji: "🐷", bg: "#ff3eb522", border: "#ff3eb5", text: "#ff3eb5" },
+  { emoji: "🐬", bg: "#3effee22", border: "#3effee", text: "#3effee" },
+  { emoji: "👽", bg: "#aaff3e22", border: "#aaff3e", text: "#aaff3e" },
+  { emoji: "👻", bg: "#ffffff22", border: "#ffffff", text: "#ffffff" },
 ];
 
-const CIRCUMFERENCE = 2 * Math.PI * 24; // r=24
+const CIRCUMFERENCE = 2 * Math.PI * 24;
 
 export default function AnswerInput() {
   const {
@@ -29,7 +33,7 @@ export default function AnswerInput() {
   const inputRef = useRef(null);
 
   const nomeJogador = jogadores[jogadorAtualIdx];
-  const cor = AVATAR_COLORS[jogadorAtualIdx % AVATAR_COLORS.length];
+  const avatar = AVATARS[jogadorAtualIdx % AVATARS.length];
 
   const handleTimeout = () => setTimeoutMsg(true);
   const { tempo, ativo, porcentagem, iniciar } = useTimer(
@@ -59,12 +63,12 @@ export default function AnswerInput() {
     setTimeout(() => confirmarResposta(resposta.trim()), 350);
   };
 
-  // Auto-confirma ao acabar o tempo
   useEffect(() => {
     if (timeoutMsg && !confirmando) {
-      setTimeout(() => {
-        confirmarResposta(resposta.trim() || "(sem resposta)");
-      }, 1800);
+      setTimeout(
+        () => confirmarResposta(resposta.trim() || "(sem resposta)"),
+        1800,
+      );
     }
     // eslint-disable-next-line
   }, [timeoutMsg]);
@@ -98,18 +102,17 @@ export default function AnswerInput() {
                 width: 44,
                 height: 44,
                 borderRadius: "50%",
-                background: cor.bg,
-                border: `2px solid ${cor.border}`,
-                color: cor.text,
+                background: avatar.bg,
+                border: `2px solid ${avatar.border}`,
+                color: avatar.text,
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                fontFamily: "'Bebas Neue'",
-                fontSize: "1.2rem",
+                fontSize: "1.4rem",
                 flexShrink: 0,
               }}
             >
-              {nomeJogador[0].toUpperCase()}
+              {avatar.emoji}
             </div>
             <div style={{ flex: 1 }}>
               <div
@@ -172,7 +175,6 @@ export default function AnswerInput() {
           >
             ✍️ Sua resposta
           </div>
-
           <textarea
             ref={inputRef}
             className="input-field"
@@ -186,7 +188,6 @@ export default function AnswerInput() {
             maxLength={280}
             disabled={timeoutMsg}
           />
-
           <div
             style={{
               display: "flex",
@@ -211,7 +212,6 @@ export default function AnswerInput() {
               {resposta.length}/280
             </span>
           </div>
-
           <div
             style={{
               marginTop: 18,
@@ -223,8 +223,8 @@ export default function AnswerInput() {
               lineHeight: 1.5,
             }}
           >
-            🔒 Não mostre sua resposta para os outros jogadores. Após confirmar,
-            passe o dispositivo.
+            🔒 Não mostre a sua resposta a ninguém. Após confirmar, passe o
+            dispositivo.
           </div>
         </div>
 

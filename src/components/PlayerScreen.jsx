@@ -1,13 +1,17 @@
 import React, { useState } from "react";
 import { useGame } from "../context/GameContext";
 
-const AVATAR_COLORS = [
-  { bg: "#ff3e3e22", border: "#ff3e3e", text: "#ff3e3e" },
-  { bg: "#9b6dff22", border: "#9b6dff", text: "#9b6dff" },
-  { bg: "#3effa322", border: "#3effa3", text: "#3effa3" },
-  { bg: "#f5c84222", border: "#f5c842", text: "#f5c842" },
-  { bg: "#ff6b3e22", border: "#ff6b3e", text: "#ff6b3e" },
-  { bg: "#3eaaff22", border: "#3eaaff", text: "#3eaaff" },
+const AVATARS = [
+  { emoji: "🦊", bg: "#ff3e3e22", border: "#ff3e3e", text: "#ff3e3e" },
+  { emoji: "👾", bg: "#9b6dff22", border: "#9b6dff", text: "#9b6dff" },
+  { emoji: "🦖", bg: "#3effa322", border: "#3effa3", text: "#3effa3" },
+  { emoji: "🐱", bg: "#f5c84222", border: "#f5c842", text: "#f5c842" },
+  { emoji: "🦁", bg: "#ff6b3e22", border: "#ff6b3e", text: "#ff6b3e" },
+  { emoji: "🐧", bg: "#3eaaff22", border: "#3eaaff", text: "#3eaaff" },
+  { emoji: "🐷", bg: "#ff3eb522", border: "#ff3eb5", text: "#ff3eb5" },
+  { emoji: "🐬", bg: "#3effee22", border: "#3effee", text: "#3effee" },
+  { emoji: "👽", bg: "#aaff3e22", border: "#aaff3e", text: "#aaff3e" },
+  { emoji: "👻", bg: "#ffffff22", border: "#ffffff", text: "#ffffff" },
 ];
 
 export default function PlayerScreen() {
@@ -19,16 +23,14 @@ export default function PlayerScreen() {
     irParaResposta,
     rodada,
   } = useGame();
-
   const [revelado, setRevelado] = useState(false);
   const [passando, setPassando] = useState(false);
 
   const nomeJogador = jogadores[jogadorAtualIdx];
   const ehImpostor = impostoresIdx.includes(jogadorAtualIdx);
-  const cor = AVATAR_COLORS[jogadorAtualIdx % AVATAR_COLORS.length];
+  const avatar = AVATARS[jogadorAtualIdx % AVATARS.length];
 
   const handleRevelar = () => setRevelado(true);
-
   const handleContinuar = () => {
     setPassando(true);
     setTimeout(() => irParaResposta(), 350);
@@ -61,19 +63,18 @@ export default function PlayerScreen() {
               width: 80,
               height: 80,
               borderRadius: "50%",
-              background: cor.bg,
-              border: `3px solid ${cor.border}`,
-              color: cor.text,
+              background: avatar.bg,
+              border: `3px solid ${avatar.border}`,
+              color: avatar.text,
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              fontFamily: "'Bebas Neue'",
-              fontSize: "2.2rem",
+              fontSize: "2.8rem",
               margin: "0 auto 16px",
-              boxShadow: `0 0 30px ${cor.border}44`,
+              boxShadow: `0 0 30px ${avatar.border}44`,
             }}
           >
-            {nomeJogador[0].toUpperCase()}
+            {avatar.emoji}
           </div>
           <div
             style={{
@@ -110,7 +111,7 @@ export default function PlayerScreen() {
               <strong style={{ color: "var(--text-primary)" }}>
                 {nomeJogador}
               </strong>{" "}
-              deve estar olhando para a tela agora.
+              deve estar a olhar para o ecrã agora.
               <br />
               <br />
               Quando estiver pronto, toque no botão abaixo para ver a sua
@@ -128,7 +129,6 @@ export default function PlayerScreen() {
     );
   }
 
-  // A lógica de qual pergunta mostrar continua a mesma internamente
   const instrucao = ehImpostor ? perguntaAtual.impostor : perguntaAtual.normal;
 
   return (
@@ -155,22 +155,19 @@ export default function PlayerScreen() {
                 width: 44,
                 height: 44,
                 borderRadius: "50%",
-                background: cor.bg,
-                border: `2px solid ${cor.border}`,
-                color: cor.text,
+                background: avatar.bg,
+                border: `2px solid ${avatar.border}`,
+                color: avatar.text,
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                fontFamily: "'Bebas Neue'",
-                fontSize: "1.2rem",
+                fontSize: "1.4rem",
               }}
             >
-              {nomeJogador[0].toUpperCase()}
+              {avatar.emoji}
             </div>
-            {/* AGORA TODOS SÃO MOSTRADOS APENAS COMO "JOGADOR" */}
             <span className="badge badge-gray">👤 Jogador</span>
           </div>
-
           <div
             style={{
               fontFamily: "'Bebas Neue'",
@@ -194,7 +191,6 @@ export default function PlayerScreen() {
         </div>
 
         <div className="card-body">
-          {/* REMOVIDA A CLASSE 'impostor-box' PARA FICAR IGUAL PARA TODOS */}
           <div className="question-box">
             <div
               style={{
@@ -219,8 +215,6 @@ export default function PlayerScreen() {
               "{instrucao}"
             </div>
           </div>
-
-          {/* DICA ÚNICA E GENÉRICA PARA TODOS OS JOGADORES */}
           <div
             style={{
               marginTop: 20,
@@ -232,9 +226,8 @@ export default function PlayerScreen() {
               lineHeight: 1.5,
             }}
           >
-            💡 Responda naturalmente à instrução acima. Lembre-se de que alguém
-            pode ter recebido uma pergunta diferente! O objetivo é descobrir o
-            impostor na hora da votação.
+            💡 Responda naturalmente à instrução acima. Lembre-se que alguém
+            pode ter recebido uma pergunta diferente!
           </div>
         </div>
 
