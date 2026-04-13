@@ -10,7 +10,11 @@ export default function TopBar() {
     <div className="topbar">
       <div className="topbar-logo">
         <img
-          src={`${process.env.PUBLIC_URL}/logo-horizontal-V2.png`}
+          src={
+            darkMode
+              ? `${process.env.PUBLIC_URL}/logo-horizontal-dark.png`
+              : `${process.env.PUBLIC_URL}/logo-horizontal-light.png`
+          }
           alt="Logo Descubra o Impostor"
           style={{
             height: "70px",
