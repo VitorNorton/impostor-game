@@ -44,7 +44,7 @@ export default function AnswerInput() {
   useEffect(() => {
     if (timerAtivo) iniciar();
     inputRef.current?.focus();
-  }, []);
+  }, [iniciar, timerAtivo]);
 
   const timerColor =
     porcentagem > 60
@@ -69,7 +69,7 @@ export default function AnswerInput() {
         1800,
       );
     }
-  }, [timeoutMsg]);
+  }, [timeoutMsg, confirmando, confirmarResposta, resposta]);
 
   return (
     <div className="app-wrapper" style={{ paddingTop: 80 }}>
