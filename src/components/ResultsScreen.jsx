@@ -11,7 +11,6 @@ const PALETTE = [
 ];
 
 export default function ResultsScreen() {
-  // Alterado de perguntaRodada para perguntaAtual
   const { respostasEmbaralhadas, iniciarVotacao, rodada, perguntaAtual } =
     useGame();
   const [lidas, setLidas] = useState(false);

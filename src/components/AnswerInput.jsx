@@ -36,7 +36,7 @@ export default function AnswerInput() {
   const avatar = AVATARS[jogadorAtualIdx % AVATARS.length];
 
   const handleTimeout = () => setTimeoutMsg(true);
-  const { tempo, ativo, porcentagem, iniciar } = useTimer(
+  const { tempo, porcentagem, iniciar } = useTimer(
     tempoRodada,
     handleTimeout,
   );
@@ -44,7 +44,6 @@ export default function AnswerInput() {
   useEffect(() => {
     if (timerAtivo) iniciar();
     inputRef.current?.focus();
-    // eslint-disable-next-line
   }, []);
 
   const timerColor =
@@ -70,7 +69,6 @@ export default function AnswerInput() {
         1800,
       );
     }
-    // eslint-disable-next-line
   }, [timeoutMsg]);
 
   return (

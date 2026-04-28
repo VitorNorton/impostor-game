@@ -17,7 +17,7 @@ export function embaralhar(array) {
  */
 export function sortearImpostores(totalJogadores, numImpostores) {
   const indices = Array.from({ length: totalJogadores }, (_, i) => i);
-  if (numImpostores === 0) return indices; // todos são impostores
+  if (numImpostores === 0) return indices;
   const embaralhados = embaralhar(indices);
   return embaralhados.slice(0, numImpostores);
 }

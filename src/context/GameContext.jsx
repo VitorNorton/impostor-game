@@ -35,22 +35,8 @@ export function GameProvider({ children }) {
   const [darkMode, setDarkMode] = useState(true);
   const [rodada, setRodada] = useState(1);
 
-  // --- FUNÇÃO AUXILIAR PARA SORTEAR O MODO ---
-  const obterModoAleatorio = (qtdJogadores) => {
-    const opcoes = [0, 1]; // 0 = Caótico, 1 = Um Impostor
-    if (qtdJogadores >= 4) {
-      opcoes.push(2); // 2 = Dois Impostores (apenas se tiver 4+ jogadores)
-    }
-    return opcoes[Math.floor(Math.random() * opcoes.length)];
-  };
-
   const iniciarJogo = useCallback((nomesJogadores) => {
-    // 1. Sorteia o modo primeiro
-    const novoModo = obterModoAleatorio(nomesJogadores.length);
-    setModoJogo(novoModo);
-
-    // 2. Usa o modo sorteado para definir impostores
-    const impostores = sortearImpostores(nomesJogadores.length, novoModo);
+    const impostores = sortearImpostores(nomesJogadores.length, 1);
     const pergunta = sortearPergunta();
 
     setJogadores(nomesJogadores);
@@ -63,13 +49,8 @@ export function GameProvider({ children }) {
     setFase(FASES.PERGUNTA_JOGADOR);
   }, []);
 
-  // Nova rodada
   const novaRodada = useCallback(() => {
-    // Sorteia um novo modo para a próxima rodada ser surpresa também!
-    const novoModo = obterModoAleatorio(jogadores.length);
-    setModoJogo(novoModo);
-
-    const impostores = sortearImpostores(jogadores.length, novoModo);
+    const impostores = sortearImpostores(jogadores.length, 1);
     const pergunta = sortearPergunta();
 
     setImpostoresIdx(impostores);

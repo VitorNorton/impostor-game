@@ -1,4 +1,3 @@
-// Lista de perguntas base com conflito de contexto para o impostor
 const perguntas = [
   {
     id: 1,
